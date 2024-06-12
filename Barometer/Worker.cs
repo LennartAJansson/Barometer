@@ -38,17 +38,33 @@ public class Worker(ILogger<Worker> logger, IServiceScopeFactory factory)
           pressureValue,
           humidityValue,
           altitudeValue);
-        Measure value = new()
-        {
-          Temperature = temperatureValue.DegreesCelsius,
-          Pressure = pressureValue.Hectopascals,
-          Humidity = humidityValue.Value,
-          Altitude = altitudeValue.Value
-        };
-        _ = context.Add(value);
-        _ = await context.SaveChangesAsync(stoppingToken);
       }
+
+      Measure value = new()
+      {
+        Temperature = temperatureValue.DegreesCelsius,
+        Pressure = pressureValue.Hectopascals,
+        Humidity = humidityValue.Value,
+        Altitude = altitudeValue.Value
+      };
+      _ = context.Add(value);
+      _ = await context.SaveChangesAsync(stoppingToken);
+
       await Task.Delay(TimeSpan.FromMinutes(15), stoppingToken);
     }
   }
 }
+/*
+---
+sudo cp /app/barometer.service /etc/systemd/system/
+sudo systemctl enable barometer.service
+sudo systemctl start barometer.service
+sudo systemctl status barometer.service
+---
+sudo systemctl stop barometer.service
+sudo systemctl disable barometer.service
+sudo rm /etc/systemd/system/baromtere.service
+sudo rm /usr/lib/systemd/system/barometer.service 
+sudo systemctl daemon-reload
+sudo systemctl reset-failed
+*/
