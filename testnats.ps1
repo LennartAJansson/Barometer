@@ -1,0 +1,1 @@
+ & "C:\Apps\natsclient\nats.exe" --server="192.168.50.254:4222" account info
